@@ -20,14 +20,16 @@ prob2 0 = []
 prob2 x
   | x < 0 = prob2 (0)
   | x > 0 = prob2 (div x 10) ++ [mod x 10]
-  
+
 -- Function prob3
--- @type
--- @param
--- @output
--- @description:
-prob3 :: a
-prob3 = undefined
+-- @type Integer -> [Integer]
+-- @param  Integer
+-- @output list of digits i.e. [Integer]
+-- @description: Takes an integer as input and returns a list of digits in reverse order as they occur in the input.
+-- For negative inputs, it should return [].
+prob3 :: Integer-> [Integer]
+prob3 x = reverse(prob2(x))
+
 -- Function prob4
 -- @type
 -- @param
