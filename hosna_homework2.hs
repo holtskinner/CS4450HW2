@@ -1,50 +1,65 @@
 module Homework2 where
 import Test.QuickCheck
 -- Function prob1
--- @type   
--- @param  
+-- @type
+-- @param
 -- @output
 -- @description:
 -- listComp f p xs = [ f x | x <- xs, p x]
 prob1 :: a
 prob1 = undefined
+
 -- Function prob2
--- @type   
--- @param  
--- @output
--- @description:
-prob2 :: a
-prob2 = undefined
--- Function prob3
--- @type   
--- @param  
--- @output
--- @description:
-prob3 :: a
-prob3 = undefined
+-- @type  Integer -> [Integer]
+-- @param  Integer
+-- @output  [Integer]
+-- @description: This function uses prob2' to turn a char list, letter by
+-- letter, into an integer list -HG
+prob2 :: Integer -> [Integer]
+prob2 x
+  | x < 0 = []
+  | x >= 0 = prob2' (show x :: [Char])
+
+prob2' :: [Char] -> [Integer]
+prob2' [] = []
+--  [Char] = (read [Char] :: Integer) : [Integer]
+prob2' x = (read [head x] :: Integer):(prob2' (tail x))
+
+-- @type  Integer -> [Integer]
+-- @param  Integer
+-- @output  [Integer]
+-- @description: This function uses prob2 to turn the number into a list and
+-- then uses reverse - HG
+prob3 :: Integer -> [Integer]
+prob3 x = reverse(prob2(x))
+
 -- Function prob4
--- @type   
--- @param  
+-- @type
+-- @param
 -- @output
 -- @description:
 prob4 :: a
 prob4 = undefined
+
 -- Function prob5
--- @type   
--- @param  
--- @output
--- @description:
-prob5 :: a
-prob5 = undefined
+-- @type  [Integer] -> Integer
+-- @param  [Integer]
+-- @output  Integer
+-- @description: This function will take in a list of integers and recursively
+-- sum up the indiviual digits by turning the whole numbers into lists with
+-- prob2 - HG
+prob5 :: [Integer] -> Integer
+prob5 [] = 0
+prob5 (x:xs) =  sum(prob2(x))+ (prob5 xs)
 
 
 
 
 
-        
----------------------------------------------              
+
+---------------------------------------------
 --               Unit Tests                --
----------------------------------------------  
+---------------------------------------------
 test_prob1 :: IO ()
 test_prob1  = do
   putStrLn "Problem 1 Results:"
@@ -143,13 +158,13 @@ prob5_test1 = quickCheckWith (stdArgs {maxSuccess = 1000}) prob5_property
   where
     prob5_property :: [Integer] -> Bool
     prob5_property xs = prob5 (map (abs) xs) == go' xs
-    go' :: [Integer] -> Integer 
+    go' :: [Integer] -> Integer
     go' is = go1 (map (abs) is) 0
       where go1 :: [Integer] -> Integer -> Integer
             go1 [] n     = n
             go1 (x:xs) n | (x < 10)   = go1 xs (x + n)
                          | (x > 9)    = go1 xs ((sum (go2 x)) + n)
-                         | otherwise  = go1 xs n 
+                         | otherwise  = go1 xs n
             go2 :: Integer -> [Integer]
             go2 x
               | x < 0      = []
