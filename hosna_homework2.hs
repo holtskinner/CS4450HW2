@@ -1,20 +1,25 @@
 module Homework2 where
 import Test.QuickCheck
 -- Function prob1
--- @type
--- @param
--- @output
--- @description:
+-- @type prob1 :: (a -> b) -> (a -> Bool) -> [a] -> [b]
+-- @param (a -> b) -> (a -> Bool) -> [a]
+-- @output [b]
+-- @description: listComp rewritten with map and filter functions, see below defs
 -- listComp f p xs = [ f x | x <- xs, p x]
-prob1 :: a
-prob1 = undefined
+-- map :: (a -> b) -> [a] -> [b]
+-- map f xs = [f x | x <- xs]         def: applying function f to list x
+-- filter :: (a -> Bool) -> [a] -> [a]
+-- filter p xs = [ x | x <- xs, p x]  def: returns list of elements that satify predicate
+
+prob1 :: (a -> b) -> (a -> Bool) -> [a] -> [b]
+prob1 _ _ [] = []
+prob1 f p xs = map f (filter p xs)
 
 -- Function prob2
 -- @type  Integer -> [Integer]
 -- @param  Integer
 -- @output  [Integer]
--- @description: This function uses prob2' to turn a char list, letter by
--- letter, into an integer list -HG
+-- @description: This function uses prob2' to turn a char list, letter by letter, into an integer list
 prob2 :: Integer -> [Integer]
 prob2 x
   | x < 0 = []
@@ -28,26 +33,28 @@ prob2' x = (read [head x] :: Integer):(prob2' (tail x))
 -- @type  Integer -> [Integer]
 -- @param  Integer
 -- @output  [Integer]
--- @description: This function uses prob2 to turn the number into a list and
--- then uses reverse - HG
+-- @description: This function uses prob2 to turn the number into a list and then uses reverse 
 prob3 :: Integer -> [Integer]
 prob3 x = reverse(prob2(x))
 
 -- Function prob4
--- @type
--- @param
--- @output
--- @description:
-prob4 :: a
-prob4 = undefined
+-- @type prob4 :: [Integer] -> [Integer]
+-- @param [Integer]
+-- @output [Integer]
+-- @description: takes a list of non-negative numbers and multiplies every other number by 2, starting from the right
+
+prob4 :: [Integer] -> [Integer]
+prob4 []       = []
+prob4 (x:xs)
+      | length xs `mod` 2 /= 0 = x*2 : prob4 xs
+      | otherwise             = x : prob4 xs
 
 -- Function prob5
 -- @type  [Integer] -> Integer
 -- @param  [Integer]
 -- @output  Integer
 -- @description: This function will take in a list of integers and recursively
--- sum up the indiviual digits by turning the whole numbers into lists with
--- prob2 - HG
+-- sum up the indiviual digits by turning the whole numbers into lists with prob2
 prob5 :: [Integer] -> Integer
 prob5 [] = 0
 prob5 (x:xs) =  sum(prob2(x))+ (prob5 xs)
