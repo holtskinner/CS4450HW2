@@ -10,24 +10,27 @@ prob1 :: a
 prob1 = undefined
 
 -- Function prob2
--- @type Integer -> [Integer]
--- @param Integer
--- @output list of digits i.e [Integer]
--- @description: Takes an integer as input and returns a list of digits in order they occur in input
--- for negative inputs, it should return []
-prob2 :: Integer -> [Integer]
-prob2 0 = []
-prob2 x
-  | x < 0 = prob2 (0)
-  | x > 0 = prob2 (div x 10) ++ [mod x 10]
-
--- Function prob3
--- @type Integer -> [Integer]
+-- @type  Integer -> [Integer]
 -- @param  Integer
--- @output list of digits i.e. [Integer]
--- @description: Takes an integer as input and returns a list of digits in reverse order as they occur in the input.
--- For negative inputs, it should return [].
-prob3 :: Integer-> [Integer]
+-- @output  [Integer]
+-- @description: This function uses prob2' to turn a char list, letter by
+-- letter, into an integer list -HG
+prob2 :: Integer -> [Integer]
+prob2 x
+  | x < 0 = []
+  | x >= 0 = prob2' (show x :: [Char])
+
+prob2' :: [Char] -> [Integer]
+prob2' [] = []
+--  [Char] = (read [Char] :: Integer) : [Integer]
+prob2' x = (read [head x] :: Integer):(prob2' (tail x))
+
+-- @type  Integer -> [Integer]
+-- @param  Integer
+-- @output  [Integer]
+-- @description: This function uses prob2 to turn the number into a list and
+-- then uses reverse - HG
+prob3 :: Integer -> [Integer]
 prob3 x = reverse(prob2(x))
 
 -- Function prob4
@@ -37,13 +40,17 @@ prob3 x = reverse(prob2(x))
 -- @description:
 prob4 :: a
 prob4 = undefined
+
 -- Function prob5
--- @type
--- @param
--- @output
--- @description:
-prob5 :: a
-prob5 = undefined
+-- @type  [Integer] -> Integer
+-- @param  [Integer]
+-- @output  Integer
+-- @description: This function will take in a list of integers and recursively
+-- sum up the indiviual digits by turning the whole numbers into lists with
+-- prob2 - HG
+prob5 :: [Integer] -> Integer
+prob5 [] = 0
+prob5 (x:xs) =  sum(prob2(x))+ (prob5 xs)
 
 
 
